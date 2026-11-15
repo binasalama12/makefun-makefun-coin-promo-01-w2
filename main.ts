@@ -4,6 +4,9 @@
 // coin status card. Network failures never cause a non-zero exit code.
 import { copyFileSync, existsSync, mkdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
+import { fileURLToPath } from "node:url";
+
+const repoRoot = join(fileURLToPath(import.meta.url), "..");
 
 const botDir = process.env.MAKEFUN_BOT_DIR || "/bot";
 const outDir = process.env.MAKEFUN_OUTPUT_DIR || "/output";
@@ -89,6 +92,10 @@ async function main() {
   } else {
     console.log("RPC lookup:      unavailable (" + lookup.reason + ")");
     console.log("Status:          UNVERIFIED OFFLINE — LAUNCH.json copied, will verify on next run");
+  }
+  // Asset-presence check: coin metadata + logo must ship in the repo root.
+  for (const asset of ["metadata.json", "logo.png"]) {
+    console.log(asset + ": " + (existsSync(join(repoRoot, asset)) ? "present" : "MISSING"));
   }
   console.log("Bounty:          https://make.fun/bounty/makefun-coin-promo-01");
   console.log("=========================================");
