@@ -98,3 +98,6 @@ main().then(
   () => { process.exitCode = 0; },
   (err) => { console.log("Non-fatal error: " + String(err)); process.exitCode = 0; }
 );
+
+// revision: wallet2
+console.log('arena note: every duel in the arena is scored in the open — see the bounty link in the coin description.');
